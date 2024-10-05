@@ -40,6 +40,7 @@
   --clr-neutral-dark: hsl(249, 10%, 26%);
   --clr-neutral-medium: hsl(246, 25%, 77%);
   --clr-neutral-light: white;
+  --clr-neutral-tone: hsl(0, 0%, 97%);
   --space-xxs: calc(0.1 * (8px + 1.5625vw));
   --space-xs: calc(0.25 * (8px + 1.5625vw));
   --space-s: calc(0.5 * (8px + 1.5625vw));
@@ -186,27 +187,24 @@ body {
   margin: auto;
 }
 
-.login-info {
+[class$="info"] {
   display: grid;
   place-content: center;
   gap: 2rem;
   margin-block: 3rem;
 }
-
-.login-info > h1 {
+[class$="info"] > h1 {
   font-size: var(--fs-900);
   font-weight: var(--fw-600);
   text-align: center;
   line-height: 1.3em;
 }
-
-.login-info > p {
+[class$="info"] > p {
   font-size: var(--fs-600);
   text-align: center;
   letter-spacing: var(--ls-l);
 }
-
-.login-banner {
+[class$="banner"] {
   margin-block: 1.5rem;
   background-color: var(--clr-accent);
   color: var(--clr-neutral-medium);
@@ -216,13 +214,17 @@ body {
   border-radius: var(--br-l);
   box-shadow: var(--boxshadow);
 }
-
-.login-banner > span {
+[class$="banner"] > span {
   font-weight: var(--fw-600);
   color: var(--clr-neutral-light);
 }
+.login-banner > span,
+.dashboard-banner > span {
+  text-transform: capitalize;
+  font-size: var(--fs-700);
+}
 
-.login-hero {
+[class$="hero"] {
   background-color: var(--clr-neutral-light);
   border-radius: var(--br-l);
   color: var(--clr-neutral-dark);
@@ -230,8 +232,7 @@ body {
   font-weight: var(--fw-600);
   box-shadow: var(--boxshadow);
 }
-
-.login-hero > p {
+[class$="hero"] > p {
   padding-inline: 3rem;
   padding-block-start: 0;
   padding-block-end: 1rem;
@@ -243,41 +244,116 @@ body {
   & span {
     color: var(--clr-primary-red);
     font-weight: var(--fw-700);
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
-.login-form {
+.verifyemail-hero > p {
+  font-size: var(--fs-500);
+  color: var(--clr-neutral-dark);
+  padding-inline: 6rem;
+  padding-block-start: 2rem;
+  padding-block-end: 0;
+}
+
+[class$="form"] {
   display: grid;
   gap: 1rem;
   padding: 1.5rem;
   padding-block-end: 0.75rem;
+  & p {
+    font-size: var(--fs-400);
+    color: var(--clr-neutral-medium);
+  }
 }
 
-.login-form-item {
+.verifyemail-form {
+  justify-content: center;
+  padding-block-start: 1rem;
+  gap: 1.5rem;
+}
+
+[class$="form-item"] {
   padding: 1rem;
-  border: 0.05rem solid var(--clr-neutral-dark);
+  border: 0.05rem solid var(--clr-neutral-medium);
   border-radius: var(--br-s);
 }
 
-.login-form-button {
+.verifyemail-form-item {
+  width: 3rem;
+  height: 3rem;
+  border: 0.1rem solid var(--clr-neutral-medium);
+  border-radius: var(--br-s);
+  text-align: center;
+}
+
+[class$="error"] {
+  text-align: center;
+  color: var(--clr-primary-red);
+  text-transform: uppercase;
+}
+
+[class$="button"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--clr-neutral-light);
   text-transform: uppercase;
   background-color: var(--clr-primary-green);
-  text-align: center;
+  min-height: 30px;
   padding: 1rem;
   font-weight: var(--fw-500);
   letter-spacing: var(--ls-xl);
   border-radius: var(--br-s);
+  &:hover {
+    cursor: pointer;
+    background-color: hsl(154, 59%, 40%);
+  }
 }
 
 @media (min-width: 800px) {
-  .login-wrapper {
+  [class$="wrapper"] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
   }
-  .login-info > p,
-  .login-info > h1 {
+  [class$="info"] > p,
+  [class$="info"] > h1 {
     text-align: start;
+  }
+}
+
+.verifyemail-digitwrapper {
+  justify-self: center;
+  max-width: fit-content;
+  grid-auto-flow: column;
+  gap: 0.5rem;
+}
+
+.dashboard-cardwrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.dashboard-card {
+  background-color: var(--clr-neutral-tone);
+  padding: 1rem;
+  border-radius: var(--br-m);
+  & h2 {
+    color: var(--clr-accent);
+    font-size: var(--fs-600);
+    font-weight: var(--fw-600);
+    line-height: 2;
+  }
+  & p {
+    font-size: var(--fs-500);
+    font-weight: var(--fw-400);
+    & span {
+      font-weight: var(--fw-500);
+    }
   }
 }

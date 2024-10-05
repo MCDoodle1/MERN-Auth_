@@ -11,9 +11,9 @@ import {
 } from "../mailtrap/emails.js";
 
 export const signup = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { firstname, lastname, email, password } = req.body;
   try {
-    if (!email || !password || !name) {
+    if (!email || !password || !firstname || !lastname) {
       throw new Error("All fields are required");
     }
     const userExists = await User.findOne({ email });
@@ -28,7 +28,8 @@ export const signup = async (req, res) => {
     const user = new User({
       email,
       password: hashedPassword,
-      name,
+      firstname,
+      lastname,
       verificationToken,
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });
@@ -71,7 +72,7 @@ export const verifyEmail = async (req, res) => {
     user.verificationTokenExpiresAt = undefined;
     await user.save();
 
-    await sendWelcomeEmail(user.email, user.name);
+    await sendWelcomeEmail(user.email, user.firstname);
 
     res.status(200).json({
       success: true,
@@ -90,6 +91,11 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Credentials missing" });
+    }
     if (!user) {
       return res
         .status(400)
