@@ -1,14 +1,14 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 import "./App.css";
+import Spinner from "./components/Spinner";
 import Dashboard from "./pages/Dashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import SignUpPage from "./pages/SignUpPage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
-import { useEffect } from "react";
-import { useAuthStore } from "../store/authStore";
-import Spinner from "./components/Spinner";
 
 // Protect routes that require authentification
 const ProtectedRoute = ({ children }) => {
@@ -81,10 +81,21 @@ function App() {
         }
       ></Route>
       <Route path="/verify-email" element={<VerifyEmailPage />}></Route>
-      <Route path="/forgot-password" element={<ForgotPasswordPage />}></Route>
+      <Route
+        path="/forgot-password"
+        element={
+          <RedirectAuthenticatedUser>
+            <ForgotPasswordPage />
+          </RedirectAuthenticatedUser>
+        }
+      ></Route>
       <Route
         path="/reset-password/:token"
-        element={<ResetPasswordPage />}
+        element={
+          <RedirectAuthenticatedUser>
+            <ResetPasswordPage />
+          </RedirectAuthenticatedUser>
+        }
       ></Route>
     </Routes>
   );

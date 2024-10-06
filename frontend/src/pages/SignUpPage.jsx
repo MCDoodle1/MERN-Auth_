@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuthStore } from "../../store/authStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 
 const SignUpPage = () => {
@@ -96,11 +96,15 @@ const SignUpPage = () => {
               )}
             </button>
           </form>
-          <p>
+          <p className="signup-footer">
+            Already have an account?{" "}
+            <Link to={"/login"}>
+              <span>Login</span>
+            </Link>
+          </p>
+          <p className="signup-footer">
             By clicking the button, you are agreeing to our
-            <div>
-              <span>Terms and Services</span>
-            </div>
+            <span> Terms and Services</span>
           </p>
         </section>
       </main>

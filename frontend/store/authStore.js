@@ -11,11 +11,11 @@ export const useAuthStore = create((set) => ({
   error: null,
   isLoading: false,
   isCheckingAuth: true,
+  message: null,
 
   signup: async (firstname, lastname, email, password) => {
     set({ isLoading: true, error: null });
     try {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
       const response = await axios.post(`${API_URL}/signup`, {
         firstname,
         lastname,
@@ -54,6 +54,7 @@ export const useAuthStore = create((set) => ({
     }
   },
   login: async (email, password) => {
+    console.log("Before login error state:", useAuthStore.getState().error);
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/login`, {
@@ -71,6 +72,7 @@ export const useAuthStore = create((set) => ({
         error: error.response?.data?.message || "Error logging in",
         isLoading: false,
       });
+      console.log("After login error state:", useAuthStore.getState().error);
       throw error;
     }
   },
@@ -110,4 +112,42 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+  forgotPassword: async (email) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/forgot-password`, {
+        email,
+      });
+      set({
+        message: response.data.message,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error:
+          error.response.data.message || "error sending reset password email",
+      });
+      throw error;
+    }
+  },
+  resetPassword: async (token, password) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/reset-password/${token}`, {
+        password,
+      });
+      set({
+        message: response.data.message,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response.data.message || "error resetting password",
+      });
+      throw error;
+    }
+  },
+  clearError: () => set({ error: null }),
 }));

@@ -73,7 +73,9 @@ const VerifyEmailPage = () => {
         </section>
 
         <section className="verifyemail-hero">
-          <p>Enter the 6-digit code sent to your email address.</p>
+          <p className="verifyemail-text">
+            Enter the 6-digit code sent to your email address.
+          </p>
           <form className="verifyemail-form" onSubmit={handleSubmit}>
             <div className="verifyemail-digitwrapper">
               {code.map((digit, index) => (
