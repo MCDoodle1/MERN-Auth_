@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
@@ -7,7 +7,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login, error, isLoading } = useAuthStore();
+  const { login, error, isLoading, clearError } = useAuthStore();
+
+  useEffect(() => {
+    clearError();
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

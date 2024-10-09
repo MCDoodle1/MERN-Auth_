@@ -297,6 +297,12 @@ body {
   color: var(--clr-primary-red) !important;
   text-transform: uppercase;
 }
+[class$="success"] {
+  font-size: var(--fs-600) !important;
+  text-align: center;
+  color: var(--clr-primary-green) !important;
+  text-transform: uppercase;
+}
 
 [class$="button"] {
   display: flex;
@@ -317,6 +323,7 @@ body {
 }
 
 .verifyemail-digitwrapper {
+  display: grid;
   justify-self: center;
   max-width: fit-content;
   grid-auto-flow: column;
@@ -354,6 +361,15 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
+  }
+  .verifyemail-digitwrapper {
+    gap: 0.5rem;
+  }
+  .dashboard-cardwrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
   }
   [class$="info"] > p,
   [class$="info"] > h1 {

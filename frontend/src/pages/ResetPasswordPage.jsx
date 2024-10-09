@@ -20,6 +20,15 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLocalError("");
+    if (!password) {
+      setLocalError("Enter a new password");
+      return;
+    }
+    if (!confirmPassword) {
+      setLocalError("Confirm your new password");
+      return;
+    }
     if (password !== confirmPassword) {
       setLocalError("Passwords do not match");
       return;
@@ -34,6 +43,19 @@ const ResetPasswordPage = () => {
       }, 3000);
     } catch (error) {
       console.error(error);
+
+      // Check for specific backend error (e.g., password is the same)
+      if (
+        error.response &&
+        error.response.data.error ===
+          "Your new password cannot be the same as the old password."
+      ) {
+        setLocalError(
+          "Your new password is the same as the current password. Please choose a different one."
+        );
+      } else {
+        setLocalError("Failed to reset password. Please try again.");
+      }
     }
   };
 
@@ -59,7 +81,7 @@ const ResetPasswordPage = () => {
                 <p className="resetpassword-error">{localError}</p>
               )}
               {successMessage && (
-                <p className="resetpassword-error">{successMessage}</p>
+                <p className="resetpassword-success">{successMessage}</p>
               )}
               <input
                 type="password"
@@ -72,7 +94,6 @@ const ResetPasswordPage = () => {
                   if (error) clearError();
                   setLocalError("");
                 }}
-                required
               />
               <input
                 type="password"
@@ -85,7 +106,6 @@ const ResetPasswordPage = () => {
                   if (error) clearError();
                   setLocalError("");
                 }}
-                required
               />
               <button className="resetpassword-form-button">
                 {isLoading ? (

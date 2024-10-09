@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
@@ -6,7 +6,11 @@ import Spinner from "../components/Spinner";
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { forgotPassword, isLoading, error } = useAuthStore();
+  const { forgotPassword, isLoading, error, clearError } = useAuthStore();
+
+  useEffect(() => {
+    clearError();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

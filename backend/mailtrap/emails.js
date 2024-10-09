@@ -1,5 +1,6 @@
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
+  WELCOME_EMAIL_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
 } from "./emailTemplates.js";
@@ -32,11 +33,9 @@ export const sendWelcomeEmail = async (email, firstname) => {
     const response = await client.send({
       from: sender,
       to: recipient,
-      template_uuid: "d43d6047-96b2-47e7-a992-5aba24bfd955",
-      template_variables: {
-        company_info_name: "Learn to Code Inc.",
-        name: firstname,
-      },
+      subject: "Welcome",
+      html: WELCOME_EMAIL_TEMPLATE.replace("{username}", firstname),
+      category: "Welcome",
     });
     console.log("Welcome email sent successfully", response);
   } catch (error) {
