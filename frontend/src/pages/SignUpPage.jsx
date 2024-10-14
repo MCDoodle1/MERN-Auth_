@@ -8,6 +8,12 @@ const SignUpPage = () => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [localError, setLocalError] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
   const { signup, error, isLoading, clearError } = useAuthStore();
 
@@ -17,7 +23,29 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let errors = {};
+    if (!firstname) {
+      console.log("First Name cannot be empty");
+      errors.firstname = "First Name cannot be empty";
+    }
+    if (!lastname) {
+      console.log("Last Name cannot be empty");
+      errors.lastname = "Last Name cannot be empty";
+    }
+    if (!email) {
+      console.log("Looks like this is not an email");
+      errors.email = "Looks like this is not an email";
+    }
+    if (!password) {
+      console.log("Password cannot be empty");
+      errors.password = "Password cannot be empty";
+    }
+    if (Object.keys(errors).length > 0) {
+      setLocalError(errors);
+      return;
+    }
     try {
+      setLocalError({ firstname: "", lastname: "", email: "", password: "" });
       await signup(firstname, lastname, email, password);
       navigate("/verify-email");
     } catch (error) {
@@ -41,39 +69,86 @@ const SignUpPage = () => {
 
         <section className="signup-hero">
           <form className="signup-form" onSubmit={handleSubmit}>
-            {error && <p className="signup-error">{error}</p>}
+            {error && <p className="signup-form-error">{error}</p>}
             <input
               type="firstname"
-              placeholder="First Name"
-              className="signup-form-item"
+              placeholder={
+                localError.firstname && !firstname ? "" : "First Name"
+              }
+              className={
+                localError.firstname && !firstname
+                  ? "signup-form-item-icon"
+                  : "signup-form-item"
+              }
               value={firstname}
               id="firstname"
-              onChange={(e) => setFirstname(e.target.value)}
+              onChange={(e) => {
+                setFirstname(e.target.value);
+                if (error) clearError();
+                setLocalError((prev) => ({ ...prev, firstname: "" }));
+              }}
             />
+            {localError.firstname && (
+              <p className="signup-error">{localError.firstname}</p>
+            )}
             <input
               type="lastname"
-              placeholder="Last Name"
-              className="signup-form-item"
+              placeholder={localError.lastname && !lastname ? "" : "Last Name"}
+              className={
+                localError.lastname && !lastname
+                  ? "signup-form-item-icon"
+                  : "signup-form-item"
+              }
               value={lastname}
               id="lastname"
-              onChange={(e) => setLastname(e.target.value)}
+              onChange={(e) => {
+                setLastname(e.target.value);
+                setLocalError((prev) => ({ ...prev, lastname: "" }));
+              }}
             />
+            {localError.lastname && (
+              <p className="signup-error">{localError.lastname}</p>
+            )}
             <input
               type="email"
-              placeholder="Email Address"
-              className="signup-form-item"
+              placeholder={
+                localError.email && !email
+                  ? "email@example/com"
+                  : "Email Address"
+              }
+              className={
+                localError.email && !email
+                  ? "signup-form-item-icon"
+                  : "signup-form-item"
+              }
               value={email}
               id="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setLocalError((prev) => ({ ...prev, email: "" }));
+              }}
             />
+            {localError.email && (
+              <p className="signup-error">{localError.email}</p>
+            )}
             <input
               type="password"
-              placeholder="Password"
-              className="signup-form-item"
+              placeholder={localError.password && !password ? "" : "Password"}
+              className={
+                localError.password && !password
+                  ? "signup-form-item-icon"
+                  : "signup-form-item"
+              }
               value={password}
               id="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setLocalError((prev) => ({ ...prev, password: "" }));
+              }}
             />
+            {localError.password && (
+              <p className="signup-error">{localError.password}</p>
+            )}
             <button
               className="signup-form-button"
               type="submit"
@@ -105,8 +180,7 @@ const SignUpPage = () => {
             <Link to={"/login"}>
               <span>Login</span>
             </Link>
-          </p>
-          <p className="signup-footer">
+            <br></br>
             By clicking the button, you are agreeing to our
             <span> Terms and Services</span>
           </p>
