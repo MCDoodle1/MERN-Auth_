@@ -84,7 +84,7 @@ User receives an email to confirm the password is changed.
 ### Links
 
 - Solution URL: [Github - MERN-Auth\_](https://github.com/MCDoodle1/MERN-Auth_)
-- Live Site URL:
+- Live Site URL: [Render - MERN-Auth](https://mern-auth-9ykj.onrender.com)
 
 ## My process
 
