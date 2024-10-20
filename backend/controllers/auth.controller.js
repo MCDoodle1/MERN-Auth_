@@ -186,11 +186,9 @@ export const resetPassword = async (req, res) => {
     const isSamePassword = await bcryptjs.compare(password, user.password);
 
     if (isSamePassword) {
-      return res
-        .status(400)
-        .json({
-          error: "Your new password cannot be the same as the old password.",
-        });
+      return res.status(400).json({
+        error: "Your new password cannot be the same as the old password.",
+      });
     }
     // update password
     const hashedPassword = await bcryptjs.hash(password, 10);
@@ -228,5 +226,13 @@ export const checkAuth = async (req, res) => {
   } catch (error) {
     console.log("Error in checkAuth ", error);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+export const clearData = async (req, res) => {
+  try {
+    await User.deleteMany({});
+    res.status(200).json({ message: "Data deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting data", error });
   }
 };

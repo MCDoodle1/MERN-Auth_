@@ -153,4 +153,12 @@ export const useAuthStore = create((set) => ({
     }
   },
   clearError: () => set({ error: null }),
+  clearData: async () => {
+    try {
+      const response = await axios.delete(`${API_URL}/clear-data`);
+      console.log(response.data.message); // Handle response message
+    } catch (error) {
+      console.error("Error clearing data:", error);
+    }
+  },
 }));

@@ -48,11 +48,12 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
-  const { checkAuth } = useAuthStore();
+  const { checkAuth, clearData } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+    clearData(); // Clear database on app start
+  }, [checkAuth, clearData]);
 
   return (
     <Routes>
